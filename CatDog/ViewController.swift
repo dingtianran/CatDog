@@ -146,16 +146,19 @@ extension ViewController : AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         
         let exifOrientation = exifOrientationFromDeviceOrientation()
+        //Make a request to handle detection results
         let req = VNDetectAnimalRectanglesRequest(completionHandler:  {(request, error) in
             guard let observations = request.results as? [VNRecognizedObjectObservation] else {
                 DispatchQueue.main.async {
-                    self.resultsLabel.text = ""
+                    self.resultsLabel.text = "??"
                 }
                 return
             }
+            
             var cats = 0, dogs = 0
             for obs in observations {
                 for label in obs.labels {
+                    //Either cat or dog
                     if label.identifier == "Cat" {
                         cats += 1
                         break
@@ -174,6 +177,7 @@ extension ViewController : AVCaptureVideoDataOutputSampleBufferDelegate {
                 }
             }
         })
+        
         let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: exifOrientation, options: [:])
         try? imageRequestHandler.perform([req])
     }

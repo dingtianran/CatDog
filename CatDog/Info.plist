@@ -63,6 +63,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>CatDog needs access to your camera In order to scan text and pronounce it out loud.</string>
+	<string>CatDog needs access to your camera In order to detect animal from live stream.</string>
 </dict>
 </plist>
