@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14835.7" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14845" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14790.5"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14799.2"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
         <capability name="iOS 13.0 system colors" minToolsVersion="11.0"/>
@@ -18,10 +18,15 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bHz-hW-tSs">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                                <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j6v-wO-7pN">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="??" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2yb-Dr-S97">
                                 <rect key="frame" x="100.5" y="707" width="213" height="81"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="213" id="hUd-eI-p7t"/>
                                     <constraint firstAttribute="height" constant="81" id="wwI-lT-Oju"/>
@@ -34,7 +39,11 @@
                         <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="2yb-Dr-S97" secondAttribute="bottom" constant="74" id="61o-3F-UUF"/>
+                            <constraint firstItem="j6v-wO-7pN" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="GOp-HU-QvH"/>
+                            <constraint firstItem="j6v-wO-7pN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="J45-Tl-ZYb"/>
                             <constraint firstItem="bHz-hW-tSs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="S3g-tK-bHK"/>
+                            <constraint firstAttribute="bottom" secondItem="j6v-wO-7pN" secondAttribute="bottom" id="SNv-v6-XzA"/>
+                            <constraint firstItem="j6v-wO-7pN" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="dpN-WX-9fz"/>
                             <constraint firstAttribute="bottom" secondItem="bHz-hW-tSs" secondAttribute="bottom" id="euu-Zi-gcC"/>
                             <constraint firstItem="bHz-hW-tSs" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="kOx-kr-a44"/>
                             <constraint firstItem="bHz-hW-tSs" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="t2o-hi-NpB"/>
@@ -43,6 +52,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="boundingsView" destination="j6v-wO-7pN" id="cKR-SX-w20"/>
                         <outlet property="camPreviewView" destination="bHz-hW-tSs" id="5WN-Ra-FTl"/>
                         <outlet property="resultsLabel" destination="2yb-Dr-S97" id="Oer-F3-0a4"/>
                     </connections>

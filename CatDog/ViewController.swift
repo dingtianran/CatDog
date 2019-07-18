@@ -13,6 +13,7 @@ import AVFoundation
 class ViewController: UIViewController {
 
     @IBOutlet weak var camPreviewView: UIView!
+    @IBOutlet weak var boundingsView: UIView!
     @IBOutlet weak var resultsLabel: UILabel!
     
     lazy var captureSession: AVCaptureSession = {
@@ -22,7 +23,8 @@ class ViewController: UIViewController {
     }()
     
     var previewLayer: AVCaptureVideoPreviewLayer?
-    
+    var bufferSize = CGSize(width: 0.0, height: 0.0)
+    var frameSize = CGSize(width: 0.0, height: 0.0)
     let sampleBufferQueue = DispatchQueue.global(qos: .userInteractive)
     
     override func viewDidLoad() {
@@ -53,6 +55,7 @@ class ViewController: UIViewController {
                 }
             })
         }
+        frameSize = boundingsView.frame.size
     }
     
     private func setupCaptureSession() {
@@ -90,6 +93,17 @@ class ViewController: UIViewController {
             
             captureSession.addOutput(output)
             
+            let captureConnection = output.connection(with: .video)
+            captureConnection?.isEnabled = true
+            do {
+                try camera.lockForConfiguration()
+                let dimensions = CMVideoFormatDescriptionGetDimensions(camera.activeFormat.formatDescription)
+                bufferSize.width = CGFloat(dimensions.width)
+                bufferSize.height = CGFloat(dimensions.height)
+                camera.unlockForConfiguration()
+            } catch {
+                print(error)
+            }
         } catch let e {
             print("Error creating capture session: \(e)")
             return
@@ -149,36 +163,70 @@ extension ViewController : AVCaptureVideoDataOutputSampleBufferDelegate {
         //Make a request to handle detection results
         let req = VNDetectAnimalRectanglesRequest(completionHandler:  {(request, error) in
             guard let observations = request.results as? [VNRecognizedObjectObservation] else {
-                DispatchQueue.main.async {
-                    self.resultsLabel.text = "??"
-                }
                 return
             }
             
-            var cats = 0, dogs = 0
-            for obs in observations {
-                for label in obs.labels {
+            var cats = [CGRect](), dogs = [CGRect]()
+            var catCount = 0, dogCount = 0
+            for observation in observations {
+                let newOrigin = CGRect(x: observation.boundingBox.origin.y,
+                                       y: observation.boundingBox.origin.x,
+                                       width: observation.boundingBox.size.height,
+                                       height: observation.boundingBox.size.width)
+                let newFrame = VNImageRectForNormalizedRect(newOrigin, Int(self.frameSize.width), Int(self.frameSize.height))
+                for classification in observation.labels {
                     //Either cat or dog
-                    if label.identifier == "Cat" {
-                        cats += 1
+                    if classification.identifier == "Cat" {
+                        catCount += 1
+                        cats.append(newFrame)
                         break
-                    } else if label.identifier == "Dog" {
-                        dogs += 1
+                    } else if classification.identifier == "Dog" {
+                        dogCount += 1
+                        dogs.append(newFrame)
                         break
                     }
                 }
             }
             
             DispatchQueue.main.async {
-                if dogs == 0 && cats == 0 {
+                self.boundingsView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+                if dogCount == 0 && catCount == 0 {
                     self.resultsLabel.text = "no animal at all"
                 } else {
-                    self.resultsLabel.text = "\(cats) cats & \(dogs) dogs"
+                    self.resultsLabel.text = "\(catCount) cats & \(dogCount) dogs"
+                }
+                for shape in cats {
+                    let shapeLayer = self.createCatRoundedRectLayerWithBounds(shape)
+                    self.boundingsView.layer.addSublayer(shapeLayer)
+                }
+                for shape in dogs {
+                    let shapeLayer = self.createDogRoundedRectLayerWithBounds(shape)
+                    self.boundingsView.layer.addSublayer(shapeLayer)
                 }
             }
         })
         
         let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: exifOrientation, options: [:])
         try? imageRequestHandler.perform([req])
+    }
+    
+    func createCatRoundedRectLayerWithBounds(_ bounds: CGRect) -> CALayer {
+        let mask = CAShapeLayer()
+        mask.frame = bounds
+        mask.cornerRadius = 10
+        mask.opacity = 0.75
+        mask.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 0.2, 0.2, 0.4])
+        mask.borderWidth = 3.0
+        return mask
+    }
+    
+    func createDogRoundedRectLayerWithBounds(_ bounds: CGRect) -> CALayer {
+        let mask = CAShapeLayer()
+        mask.frame = bounds
+        mask.cornerRadius = 10
+        mask.opacity = 0.75
+        mask.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.2, 1.0, 1.0, 0.4])
+        mask.borderWidth = 3.0
+        return mask
     }
 }

@@ -1,6 +1,8 @@
-# CatDog
+# Cat&Dog
 
-A tiny demo of how to use iOS 13 built-in feature(`VNDetectAnimalRectanglesRequest` and `VNAnimalDetector`) to detect cats and dogs from iPhone live camera stream. Only Cat and Dog supported for the moment.
+A tiny demo of how to use iOS 13 built-in feature(`VNDetectAnimalRectanglesRequest` and `VNAnimalDetector`) to detect cats and dogs from the frame. Only cat and dog supported for the moment.
+
+Inspired by [AppleFaceDetection](https://github.com/Willjay90/AppleFaceDetection)
 
 Note: result might be various/hilarious sometimes ⬇️
 ![sample](https://github.com/dingtianran/CatDog/blob/master/IMG_2915.jpg)
