@@ -8,6 +8,8 @@ A tiny demo of how to use iOS 13 built-in feature(`VNDetectAnimalRectanglesReque
 Inspired by [AppleFaceDetection](https://github.com/Willjay90/AppleFaceDetection)
 
 Note: result might be various/hilarious sometimes ⬇️
+
+
 <img src="https://github.com/dingtianran/CatDog/blob/master/IMG_2928.jpg" width="250" height="400" />  <img src="https://github.com/dingtianran/CatDog/blob/master/5ddf862fc8f9.jpg" width="250" height="400" /> 
 
 ## Setup
