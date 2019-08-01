@@ -161,7 +161,7 @@ extension ViewController : AVCaptureVideoDataOutputSampleBufferDelegate {
         
         let exifOrientation = exifOrientationFromDeviceOrientation()
         //Make a request to handle detection results
-        let req = VNDetectAnimalRectanglesRequest(completionHandler:  {(request, error) in
+        let req = VNRecognizeAnimalsRequest(completionHandler:  {(request, error) in
             guard let observations = request.results as? [VNRecognizedObjectObservation] else {
                 return
             }
