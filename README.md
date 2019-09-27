@@ -3,6 +3,8 @@
 ![ios13+](https://img.shields.io/badge/iOS-13%2B-blue.svg)
 ![swift5+](https://img.shields.io/badge/swift-5%2B-orange.svg)
 
+Update: [Now it's a free app on App Store!!!](https://apps.apple.com/app/id1479904692)
+
 A tiny demo of how to use iOS 13 built-in feature(`VNRecognizeAnimalsRequest` and `VNAnimalDetector`) to detect cats and dogs from the frame. Only cat and dog supported for the moment.
 
 Inspired by [AppleFaceDetection](https://github.com/Willjay90/AppleFaceDetection)
